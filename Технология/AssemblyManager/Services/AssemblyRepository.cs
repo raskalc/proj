@@ -266,6 +266,31 @@ namespace AssemblyManager.Services
             return reloaded ?? assembly;
         }
 
+        public async Task UpdateAssemblyModelDataAsync(int id, byte[] data)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = "UPDATE dbo.Assemblies SET ModelData=@data, UpdatedAt=@u WHERE Id=@id;";
+            var p = cmd.Parameters.Add("@data", SqlDbType.VarBinary, -1);
+            p.Value = data;
+            cmd.Parameters.AddWithValue("@u", DateTime.Now);
+            cmd.Parameters.AddWithValue("@id", id);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task UpdatePartModelDataAsync(int id, byte[] data)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = "UPDATE dbo.Parts SET ModelData=@data WHERE Id=@id;";
+            var p = cmd.Parameters.Add("@data", SqlDbType.VarBinary, -1);
+            p.Value = data;
+            cmd.Parameters.AddWithValue("@id", id);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
         public async Task DeleteAssemblyAsync(int id)
         {
             using var connection = new SqlConnection(_connectionString);

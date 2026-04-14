@@ -14,17 +14,24 @@ namespace AssemblyManager.Forms
     public class MainForm : Form
     {
         private readonly MainViewModel _viewModel;
+        private readonly AssemblyRepository _repository;
+        private readonly AssemblyWorkspace _workspace;
         private readonly BindingSource _assembliesSource = new BindingSource();
         private readonly BindingSource _partsSource = new BindingSource();
 
         private DataGridView _assembliesGrid = null!;
         private DataGridView _partsGrid = null!;
         private Label _assemblyDescription = null!;
+        private Label _workspaceStatus = null!;
 
         public MainForm()
         {
-            _viewModel = new MainViewModel(new AssemblyRepository(), new XmlTransferService());
+            _repository = new AssemblyRepository();
+            _viewModel = new MainViewModel(_repository, new XmlTransferService());
+            _workspace = new AssemblyWorkspace(_repository, this);
             InitializeComponent();
+            _workspace.FileSaved += OnWorkspaceFileSaved;
+            FormClosed += (_, _) => _workspace.Dispose();
         }
 
         private async void MainForm_Load(object? sender, EventArgs e)
@@ -72,11 +79,16 @@ namespace AssemblyManager.Forms
             openModelButton.Click += OnOpenModel;
             var openAssemblyButton = new Button { Text = "Открыть сборку", AutoSize = true, Margin = new Padding(4) };
             openAssemblyButton.Click += OnOpenAssembly;
+            var saveWorkspaceButton = new Button { Text = "Сохранить в БД", AutoSize = true, Margin = new Padding(4) };
+            saveWorkspaceButton.Click += OnSaveWorkspace;
+            _workspaceStatus = new Label { AutoSize = true, Margin = new Padding(8, 10, 0, 0), ForeColor = System.Drawing.Color.DimGray };
 
             toolbar.Controls.Add(importButton);
             toolbar.Controls.Add(exportButton);
             toolbar.Controls.Add(openAssemblyButton);
             toolbar.Controls.Add(openModelButton);
+            toolbar.Controls.Add(saveWorkspaceButton);
+            toolbar.Controls.Add(_workspaceStatus);
             root.Controls.Add(toolbar, 0, 0);
 
             var split = new SplitContainer
@@ -381,13 +393,34 @@ namespace AssemblyManager.Forms
 
         private async void OnOpenModel(object? sender, EventArgs e)
         {
+            var assembly = _viewModel.SelectedAssembly;
             var part = _viewModel.SelectedPart;
-            if (part == null)
+            if (assembly == null || part == null)
             {
                 MessageBox.Show("Выберите деталь.", "Нет выбранной детали", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            await OpenModelAsync(() => _viewModel.LoadPartModelAsync(part.Id), "У выбранной детали нет модели в БД.");
+
+            try
+            {
+                await _workspace.OpenAsync(assembly);
+                if (_workspace.RootDirectory == null) return;
+
+                var partModel = await _viewModel.LoadPartModelAsync(part.Id);
+                if (partModel == null)
+                {
+                    MessageBox.Show("У выбранной детали нет модели в БД.", "Нет файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                var path = Path.Combine(_workspace.RootDirectory, partModel.Value.FileName);
+                SetWorkspaceStatus($"Рабочая папка: {_workspace.RootDirectory}");
+                KompasLauncher.Open(path);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось открыть файл:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void OnOpenAssembly(object? sender, EventArgs e)
@@ -398,32 +431,56 @@ namespace AssemblyManager.Forms
                 MessageBox.Show("Выберите сборку.", "Нет выбранной сборки", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            await OpenModelAsync(() => _viewModel.LoadAssemblyModelAsync(assembly.Id), "У выбранной сборки нет модели .a3d в БД.");
-        }
 
-        private async Task OpenModelAsync(Func<Task<(string FileName, byte[] Data)?>> loader, string emptyMessage)
-        {
             try
             {
-                var result = await loader();
-                if (result == null)
+                var launchPath = await _workspace.OpenAsync(assembly);
+                if (launchPath == null)
                 {
-                    MessageBox.Show(emptyMessage, "Нет файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("У выбранной сборки нет модели .a3d в БД.", "Нет файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-
-                var (fileName, data) = result.Value;
-                var tempDir = Path.Combine(Path.GetTempPath(), "AssemblyManager");
-                Directory.CreateDirectory(tempDir);
-                var tempPath = Path.Combine(tempDir, fileName);
-                File.WriteAllBytes(tempPath, data);
-
-                KompasLauncher.Open(tempPath);
+                SetWorkspaceStatus($"Рабочая папка: {_workspace.RootDirectory}");
+                KompasLauncher.Open(launchPath);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Не удалось открыть файл:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private async void OnSaveWorkspace(object? sender, EventArgs e)
+        {
+            if (_workspace.RootDirectory == null)
+            {
+                MessageBox.Show("Сначала откройте сборку или деталь.", "Нет активной сессии", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                var count = await _workspace.SaveAllToDbAsync();
+                SetWorkspaceStatus($"Сохранено файлов: {count}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось сохранить:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnWorkspaceFileSaved(string fileName)
+        {
+            SetWorkspaceStatus($"Автосохранение: {fileName} ({DateTime.Now:HH:mm:ss})");
+        }
+
+        private void SetWorkspaceStatus(string text)
+        {
+            if (_workspaceStatus.InvokeRequired)
+            {
+                _workspaceStatus.BeginInvoke(new Action<string>(SetWorkspaceStatus), text);
+                return;
+            }
+            _workspaceStatus.Text = text;
         }
 
         private void OnExportXml(object? sender, EventArgs e)
