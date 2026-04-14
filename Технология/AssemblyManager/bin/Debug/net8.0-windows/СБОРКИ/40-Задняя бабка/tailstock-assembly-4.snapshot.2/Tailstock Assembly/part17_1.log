@@ -1,0 +1,61 @@
+﻿UG to IGES
+! INFO-     NX V10.0 / IGES Specification 5.3
+! INFO-      
+! INFO-     Start of Translation: 29-JAN-2017  12:57:11 PM
+! INFO-      
+! STATUS-   Converting Part: C:\Users\Amit\Desktop\work\Project\Tailstock Assembly\part17.prt
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Input Entities
+! SUMMARY-  For Part: C:\Users\Amit\Desktop\work\Project\Tailstock Assembly\part17.prt 
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Point .......................:     2
+! SUMMARY-  Line ........................:    57
+! SUMMARY-  Arc/Circle ..................:     9
+! SUMMARY-  Conic .......................:    12
+! SUMMARY-  B-Curve .....................:    68
+! SUMMARY-  Part Attribute ..............:     1
+! SUMMARY-  Layer Category ..............:     6
+! SUMMARY-  Font ........................:     2
+! SUMMARY-  Color Table .................:     2
+! SUMMARY-  Coordinate System ...........:     2
+! SUMMARY-  Parameter ...................:     2
+! SUMMARY-  Matrix ......................:    15
+! SUMMARY-  View ........................:     8
+! SUMMARY-  Layout ......................:     5
+! SUMMARY-  Solid .......................:
+! SUMMARY-     Face .....................:    15
+! SUMMARY-  Trim Curve ..................:    17
+! SUMMARY-                                 -----
+! SUMMARY-  Total                            223
+! STATUS-    
+! STATUS-   Converting to Output Form (Phase 2 of 3): 29-JAN-2017 12:57:11 PM
+! STATUS-    
+! STATUS-   Creating the IGES file (Phase 3 of 3): 29-JAN-2017  12:57:11 PM
+! SUMMARY-   
+! SUMMARY-  Summary of IGES Output Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Point ........................     2
+! SUMMARY-  Arc ..........................     9
+! SUMMARY-  Line .........................    33
+! SUMMARY-  Conic ........................    12
+! SUMMARY-  BSpline Curve ................    44
+! SUMMARY-  Composite Curve ..............    18
+! SUMMARY-  Curve on Surface .............    11
+! SUMMARY-  Plane ........................
+! SUMMARY-      Unbounded ................    32
+! SUMMARY-  Trimmed Surface ..............     9
+! SUMMARY-  BSpline Surface ..............    15
+! SUMMARY-  Color ........................     3
+! SUMMARY-  Name .........................    17
+! SUMMARY-  Transformation ...............    21
+! SUMMARY-  Definition Levels ............     5
+! SUMMARY-  Level Function ...............     5
+! SUMMARY-  View .........................     8
+! SUMMARY-                                 -----
+! SUMMARY-  Total                            244
+! INFO-      
+! INFO-     End of Translation: 29-JAN-2017  12:57:12 PM
+! INFO-      

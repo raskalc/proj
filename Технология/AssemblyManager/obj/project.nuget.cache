@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "n59stIGtQ9M=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\XE\\.nuget\\packages\\system.data.sqlclient\\4.8.6\\system.data.sqlclient.4.8.6.nupkg.sha512"
+  ],
+  "logs": []
+}
