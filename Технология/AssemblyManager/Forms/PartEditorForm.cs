@@ -13,7 +13,9 @@ namespace AssemblyManager.Forms
         private readonly TextBox _numberBox = new TextBox();
         private readonly TextBox _materialBox = new TextBox();
         private readonly TextBox _quantityBox = new TextBox();
-        private readonly TextBox _modelPathBox = new TextBox();
+        private readonly TextBox _modelPathBox = new TextBox { ReadOnly = true };
+        private byte[]? _modelData;
+        private string? _modelFileName;
         private readonly TextBox _notesBox = new TextBox { Multiline = true, ScrollBars = ScrollBars.Vertical };
 
         public PartRecord Result { get; private set; }
@@ -30,7 +32,8 @@ namespace AssemblyManager.Forms
                     PartNumber = part.PartNumber,
                     Material = part.Material,
                     Quantity = part.Quantity,
-                    ModelPath = part.ModelPath,
+                    ModelFileName = part.ModelFileName,
+                    ModelData = part.ModelData,
                     Notes = part.Notes
                 }
                 : new PartRecord();
@@ -40,7 +43,9 @@ namespace AssemblyManager.Forms
             _numberBox.Text = Result.PartNumber;
             _materialBox.Text = Result.Material ?? string.Empty;
             _quantityBox.Text = Result.Quantity.ToString();
-            _modelPathBox.Text = Result.ModelPath ?? string.Empty;
+            _modelFileName = Result.ModelFileName;
+            _modelData = Result.ModelData;
+            _modelPathBox.Text = _modelFileName ?? string.Empty;
             _notesBox.Text = Result.Notes ?? string.Empty;
         }
 
@@ -86,7 +91,7 @@ namespace AssemblyManager.Forms
             _quantityBox.Margin = new Padding(0, 0, 0, 8);
             layout.Controls.Add(_quantityBox, 1, 3);
 
-            layout.Controls.Add(new Label { Text = "Путь к модели", AutoSize = true, Margin = new Padding(0, 4, 8, 8) }, 0, 4);
+            layout.Controls.Add(new Label { Text = "Файл модели", AutoSize = true, Margin = new Padding(0, 4, 8, 8) }, 0, 4);
             var modelPanel = new TableLayoutPanel { ColumnCount = 2, Dock = DockStyle.Fill };
             modelPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             modelPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -125,23 +130,14 @@ namespace AssemblyManager.Forms
         {
             using var dialog = new OpenFileDialog
             {
-                Filter = "Файлы моделей (*.m3d;*.cdw)|*.m3d;*.cdw|Все файлы|*.*"
+                Filter = "Файлы моделей (*.m3d;*.a3d;*.cdw)|*.m3d;*.a3d;*.cdw|Все файлы|*.*"
             };
 
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                var basePath = AppDomain.CurrentDomain.BaseDirectory;
-                var fullPath = dialog.FileName;
-                if (fullPath.StartsWith(basePath, StringComparison.OrdinalIgnoreCase))
-                {
-                    Result.ModelPath = fullPath.Substring(basePath.Length).TrimStart(Path.DirectorySeparatorChar);
-                }
-                else
-                {
-                    Result.ModelPath = fullPath;
-                }
-
-                _modelPathBox.Text = Result.ModelPath;
+                _modelFileName = Path.GetFileName(dialog.FileName);
+                _modelData = File.ReadAllBytes(dialog.FileName);
+                _modelPathBox.Text = _modelFileName;
             }
         }
 
@@ -163,7 +159,8 @@ namespace AssemblyManager.Forms
             Result.PartNumber = _numberBox.Text.Trim();
             Result.Material = string.IsNullOrWhiteSpace(_materialBox.Text) ? null : _materialBox.Text.Trim();
             Result.Quantity = quantity;
-            Result.ModelPath = string.IsNullOrWhiteSpace(_modelPathBox.Text) ? null : _modelPathBox.Text.Trim();
+            Result.ModelFileName = _modelFileName;
+            Result.ModelData = _modelData;
             Result.Notes = string.IsNullOrWhiteSpace(_notesBox.Text) ? null : _notesBox.Text.Trim();
 
             DialogResult = DialogResult.OK;

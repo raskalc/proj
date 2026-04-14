@@ -10,3 +10,16 @@ C:\Users\XE\proj\Технология\AssemblyManager\obj\Debug\net48\Assembly.5
 C:\Users\XE\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.exe
 C:\Users\XE\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.pdb
 C:\Users\XE\proj\Технология\AssemblyManager\bin\Debug\net48\System.Data.SqlClient.dll
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\bin\Debug\net48\AssemblyManager.exe.config
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\bin\Debug\net48\AssemblyManager.exe
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\bin\Debug\net48\AssemblyManager.pdb
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\bin\Debug\net48\System.Data.SqlClient.dll
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.csproj.AssemblyReference.cache
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.AssemblyInfoInputs.cache
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.AssemblyInfo.cs
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.csproj.CoreCompileInputs.cache
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.sourcelink.json
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\Assembly.5850B49B.Up2Date
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.exe
+C:\Users\raskalc\RiderProjects\proj\Технология\AssemblyManager\obj\Debug\net48\AssemblyManager.pdb

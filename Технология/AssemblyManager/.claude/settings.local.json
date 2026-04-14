@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/raskalc/RiderProjects/proj/Технология/**)",
+      "Read(//c/Users/raskalc/RiderProjects/proj/**)",
+      "Bash(dotnet build:*)"
+    ]
+  }
+}

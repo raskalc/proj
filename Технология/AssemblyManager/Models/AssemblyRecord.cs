@@ -18,6 +18,11 @@ namespace AssemblyManager.Models
         [MaxLength(500)]
         public string? Description { get; set; }
 
+        [MaxLength(260)]
+        public string? ModelFileName { get; set; }
+
+        public byte[]? ModelData { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

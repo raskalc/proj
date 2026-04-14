@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj": {}
+    "C:\\Users\\raskalc\\RiderProjects\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj": {
+    "C:\\Users\\raskalc\\RiderProjects\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
+        "projectUniqueName": "C:\\Users\\raskalc\\RiderProjects\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
         "projectName": "AssemblyManager",
-        "projectPath": "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
-        "packagesPath": "C:\\Users\\XE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\obj\\",
+        "projectPath": "C:\\Users\\raskalc\\RiderProjects\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
+        "packagesPath": "C:\\Users\\raskalc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\raskalc\\RiderProjects\\proj\\Технология\\AssemblyManager\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\XE\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\raskalc\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net48"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -40,18 +38,24 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net48": {
           "targetAlias": "net48",
           "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.6, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

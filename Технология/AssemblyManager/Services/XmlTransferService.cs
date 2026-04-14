@@ -26,7 +26,7 @@ namespace AssemblyManager.Services
                         PartNumber = p.PartNumber,
                         Material = p.Material,
                         Quantity = p.Quantity,
-                        ModelPath = p.ModelPath,
+                        ModelFileName = p.ModelFileName,
                         Notes = p.Notes
                     }).ToList()
                 }).ToList()
@@ -58,7 +58,7 @@ namespace AssemblyManager.Services
                     PartNumber = p.PartNumber,
                     Material = p.Material,
                     Quantity = p.Quantity,
-                    ModelPath = p.ModelPath,
+                    ModelFileName = p.ModelFileName,
                     Notes = p.Notes
                 }).ToList()
             }).ToList();
@@ -102,8 +102,8 @@ namespace AssemblyManager.Services
         [XmlElement("quantity")]
         public int Quantity { get; set; } = 1;
 
-        [XmlElement("modelPath")]
-        public string? ModelPath { get; set; }
+        [XmlElement("modelFileName")]
+        public string? ModelFileName { get; set; }
 
         [XmlElement("notes")]
         public string? Notes { get; set; }

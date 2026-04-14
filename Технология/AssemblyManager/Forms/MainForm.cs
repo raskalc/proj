@@ -70,9 +70,12 @@ namespace AssemblyManager.Forms
             exportButton.Click += OnExportXml;
             var openModelButton = new Button { Text = "Открыть модель детали", AutoSize = true, Margin = new Padding(4) };
             openModelButton.Click += OnOpenModel;
+            var openAssemblyButton = new Button { Text = "Открыть сборку", AutoSize = true, Margin = new Padding(4) };
+            openAssemblyButton.Click += OnOpenAssembly;
 
             toolbar.Controls.Add(importButton);
             toolbar.Controls.Add(exportButton);
+            toolbar.Controls.Add(openAssemblyButton);
             toolbar.Controls.Add(openModelButton);
             root.Controls.Add(toolbar, 0, 0);
 
@@ -228,9 +231,9 @@ namespace AssemblyManager.Forms
             });
             _partsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Путь к модели",
-                DataPropertyName = nameof(PartRecord.ModelPath),
-                Width = 200
+                HeaderText = "Файл модели",
+                DataPropertyName = nameof(PartRecord.ModelFileName),
+                Width = 220
             });
             partsPanel.Controls.Add(_partsGrid, 0, 2);
 
@@ -376,33 +379,46 @@ namespace AssemblyManager.Forms
             }
         }
 
-        private void OnOpenModel(object? sender, EventArgs e)
+        private async void OnOpenModel(object? sender, EventArgs e)
         {
-            if (_viewModel.SelectedPart?.ModelPath == null)
+            var part = _viewModel.SelectedPart;
+            if (part == null)
             {
-                MessageBox.Show("У выбранной детали нет пути к модели.", "Нет файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Выберите деталь.", "Нет выбранной детали", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            await OpenModelAsync(() => _viewModel.LoadPartModelAsync(part.Id), "У выбранной детали нет модели в БД.");
+        }
 
-            var path = _viewModel.SelectedPart.ModelPath;
-            if (!Path.IsPathRooted(path))
+        private async void OnOpenAssembly(object? sender, EventArgs e)
+        {
+            var assembly = _viewModel.SelectedAssembly;
+            if (assembly == null)
             {
-                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
-            }
-
-            if (!File.Exists(path))
-            {
-                MessageBox.Show($"Файл не найден:\n{path}", "Модель не найдена", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите сборку.", "Нет выбранной сборки", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            await OpenModelAsync(() => _viewModel.LoadAssemblyModelAsync(assembly.Id), "У выбранной сборки нет модели .a3d в БД.");
+        }
 
+        private async Task OpenModelAsync(Func<Task<(string FileName, byte[] Data)?>> loader, string emptyMessage)
+        {
             try
             {
-                Process.Start(new ProcessStartInfo
+                var result = await loader();
+                if (result == null)
                 {
-                    FileName = path,
-                    UseShellExecute = true
-                });
+                    MessageBox.Show(emptyMessage, "Нет файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                var (fileName, data) = result.Value;
+                var tempDir = Path.Combine(Path.GetTempPath(), "AssemblyManager");
+                Directory.CreateDirectory(tempDir);
+                var tempPath = Path.Combine(tempDir, fileName);
+                File.WriteAllBytes(tempPath, data);
+
+                KompasLauncher.Open(tempPath);
             }
             catch (Exception ex)
             {

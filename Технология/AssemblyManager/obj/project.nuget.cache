@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "n59stIGtQ9M=",
+  "dgSpecHash": "U8PSVcVw/xI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\XE\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
+  "projectFilePath": "C:\\Users\\raskalc\\RiderProjects\\proj\\Технология\\AssemblyManager\\AssemblyManager.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\XE\\.nuget\\packages\\system.data.sqlclient\\4.8.6\\system.data.sqlclient.4.8.6.nupkg.sha512"
+    "C:\\Users\\raskalc\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.3\\microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "C:\\Users\\raskalc\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net48\\1.0.3\\microsoft.netframework.referenceassemblies.net48.1.0.3.nupkg.sha512",
+    "C:\\Users\\raskalc\\.nuget\\packages\\system.data.sqlclient\\4.8.6\\system.data.sqlclient.4.8.6.nupkg.sha512"
   ],
   "logs": []
 }

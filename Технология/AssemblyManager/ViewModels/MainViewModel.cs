@@ -44,15 +44,7 @@ namespace AssemblyManager.ViewModels
         public async Task InitializeAsync()
         {
             await _repository.EnsureCreatedAsync();
-            var existing = await _repository.GetAssembliesAsync();
-
-            // Если сборок больше одной – оставляем только первую.
-            if (existing.Count > 1)
-            {
-                var first = existing.First();
-                await _repository.ReplaceAllAsync(new List<AssemblyRecord> { first });
-            }
-
+            await AssemblySeeder.SeedStamp12IfMissingAsync(_repository);
             await LoadAssembliesAsync();
         }
 
@@ -128,6 +120,12 @@ namespace AssemblyManager.ViewModels
             await LoadAssembliesAsync();
             SelectedAssembly = Assemblies.FirstOrDefault(a => a.Id == currentAssemblyId);
         }
+
+        public Task<(string FileName, byte[] Data)?> LoadAssemblyModelAsync(int id)
+            => _repository.GetAssemblyModelAsync(id);
+
+        public Task<(string FileName, byte[] Data)?> LoadPartModelAsync(int id)
+            => _repository.GetPartModelAsync(id);
 
         public void ExportToXml(string filePath)
         {

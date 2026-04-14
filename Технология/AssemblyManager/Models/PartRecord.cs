@@ -19,8 +19,10 @@ namespace AssemblyManager.Models
 
         public int Quantity { get; set; } = 1;
 
-        [MaxLength(300)]
-        public string? ModelPath { get; set; }
+        [MaxLength(260)]
+        public string? ModelFileName { get; set; }
+
+        public byte[]? ModelData { get; set; }
 
         [MaxLength(300)]
         public string? Notes { get; set; }
