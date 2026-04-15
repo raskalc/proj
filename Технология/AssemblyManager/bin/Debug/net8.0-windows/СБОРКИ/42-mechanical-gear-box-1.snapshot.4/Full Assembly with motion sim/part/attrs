@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<UgAttributes version="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Attribute owner="part" pdmBased="false" title="NX_MaterialMissingAssignments" utf8title="NX_MaterialMissingAssignments" utf8value="TRUE" value="TRUE" version="3" xsi:type="StringAttributeType"/><Attribute owner="part" pdmBased="false" title="NX_MaterialMultipleAssigned" utf8title="NX_MaterialMultipleAssigned" utf8value="FALSE" value="FALSE" version="3" xsi:type="StringAttributeType"/>
-</UgAttributes>

@@ -30,7 +30,7 @@ namespace AssemblyManager.Services
             {
                 Name = "Штамп для изготовления фанерных решеток",
                 Code = "12",
-                Description = "Сборка загружена автоматически из папки КОМПАС."
+                Description = ""
             };
             if (a3d != null)
             {
