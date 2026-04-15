@@ -94,8 +94,7 @@ namespace AssemblyManager.Forms
             var split = new SplitContainer
             {
                 Dock = DockStyle.Fill,
-                Orientation = Orientation.Vertical,
-                SplitterDistance = 380
+                Orientation = Orientation.Vertical
             };
             root.Controls.Add(split, 0, 1);
 
